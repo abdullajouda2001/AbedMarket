@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    /**
-     * عرض الصفحة الرئيسية
-     */
     public function index()
     {
         $sidebarCategories = Category::all();
@@ -21,31 +18,24 @@ class StoreController extends Controller
         return view('store.home', compact('categories', 'sidebarCategories', 'bestSellers', 'products'));
     }
 
-    /**
-     * عرض منتج واحد فقط (مسار: /product/{id})
-     */
-    // لعرض تفاصيل منتج واحد فقط (صفحة جديدة)
-public function show($id)
-{
-    $product = \App\Models\Product::findOrFail($id);
-    $sidebarCategories = \App\Models\Category::all(); 
+    public function show($id)
+    {
+        // تم تعديل الاستدعاء هنا ليكون متوافقاً 100% مع السيرفر
+        $product = Product::findOrFail($id); 
+        $sidebarCategories = Category::all(); 
 
-    // سنستخدم ملف جديد خاص بالمنتج فقط
-    return view('store.product-details', compact('product', 'sidebarCategories'));
-}
+        return view('store.product-details', compact('product', 'sidebarCategories'));
+    }
 
-// لعرض منتجات قسم معين
-public function showCategoryProducts($id)
-{
-    $category = \App\Models\Category::with('products')->findOrFail($id);
-    $sidebarCategories = \App\Models\Category::all(); 
+    public function showCategoryProducts($id)
+    {
+        // تم تعديل الاستدعاء هنا ليكون متوافقاً 100% مع السيرفر
+        $category = Category::with('products')->findOrFail($id);
+        $sidebarCategories = Category::all(); 
 
-    // هذا الملف هو الذي يعرض "قائمة المنتجات" الخاص بالقسم
-    return view('store.show', compact('category', 'sidebarCategories'));
-}
-    /**
-     * البحث عن المنتجات
-     */
+        return view('store.show', compact('category', 'sidebarCategories'));
+    }
+
     public function search(Request $request)
     {
         $query = $request->input('query');
@@ -53,8 +43,8 @@ public function showCategoryProducts($id)
         $categories = Category::all();
 
         $products = Product::where('name', 'LIKE', "%{$query}%")
-                    ->orWhere('description', 'LIKE', "%{$query}%")
-                    ->get();
+                            ->orWhere('description', 'LIKE', "%{$query}%")
+                            ->get();
 
         return view('store.home', compact('products', 'query', 'categories', 'sidebarCategories'));
     }

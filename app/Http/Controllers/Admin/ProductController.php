@@ -85,26 +85,24 @@ public function update(Request $request, Product $product)
     return redirect()->route('products.index')->with('success', 'تم تحديث المنتج بنجاح');
 }
 
-public function search(Request $request)
+// داخل الـ Controller
+  public function search(Request $request) 
 {
-    $term = $request->get('term');
+    $term = $request->term;
+    // إضافة حماية بسيطة إذا كان البحث فارغاً
+    $products = Product::where('name', 'LIKE', "%$term%")->limit(10)->get();
     
-    // البحث في قاعدة البيانات باسم المنتج
-    $products = \App\Models\Product::where('name', 'LIKE', '%' . $term . '%')
-        ->limit(10) // جلب 10 نتائج فقط لتسريع البحث
-        ->get();
-
-    $formatted = [];
-    foreach ($products as $product) {
-        $formatted[] = [
-            'id' => $product->id,
-            'text' => $product->name . ' - ' . number_format($product->price, 2) . ' شيكل'
+    $results = $products->map(function($product) {
+        return [
+            'id' => $product->id, 
+            'text' => $product->name . ' - ' . $product->price . ' شيكل'
         ];
-    }
-
-    return response()->json(['results' => $formatted]);
+    });
+    
+    return response()->json(['results' => $results]);
 }
-    public function destroy(Product $product)
+
+public function destroy(Product $product)
     {
         // حذف الصورة من التخزين قبل حذف السجل
         if ($product->image) {

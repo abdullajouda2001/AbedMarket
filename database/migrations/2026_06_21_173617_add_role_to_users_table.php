@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
 {
     Schema::table('users', function (Blueprint $table) {
-        // إضافة الحقل مع قيمة افتراضية
+        // إنشاء العمود مع تحديد القيمة الافتراضية 'customer'
         $table->string('role')->default('customer')->after('email'); 
     });
 }
@@ -20,7 +20,7 @@ return new class extends Migration
 public function down(): void
 {
     Schema::table('users', function (Blueprint $table) {
-        // حذف الحقل عند التراجع
+        // حذف العمود في حال التراجع عن الـ Migration
         $table->dropColumn('role');
     });
 }

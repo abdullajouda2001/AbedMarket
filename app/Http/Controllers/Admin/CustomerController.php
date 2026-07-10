@@ -96,14 +96,21 @@ public function update(Request $request, $id)
 }
 
     public function destroy($id) 
-    {
-        $customer = CustomerProfile::findOrFail($id);
-        // حذف المستخدم المرتبط (سيحذف البروفايل تلقائياً إذا كان لديك onDelete cascade)
-        if ($customer->user) {
-            $customer->user->delete();
-        }
-        $customer->delete();
+{
+    $customerProfile = CustomerProfile::findOrFail($id);
+    $user = $customerProfile->user;
 
-        return redirect()->route('customer.index')->with('success', 'تم الحذف');
+    if ($user) {
+        // 1. احذف الطلبات المرتبطة بالمستخدم أولاً لتجنب خطأ الـ Foreign Key
+        $user->orders()->delete();
+
+        // 2. احذف المستخدم
+        $user->delete();
     }
+
+    // 3. احذف البروفايل
+    $customerProfile->delete();
+
+    return redirect()->route('customer.index')->with('success', 'تم حذف المستخدم والبيانات المرتبطة به بنجاح');
+}
 }

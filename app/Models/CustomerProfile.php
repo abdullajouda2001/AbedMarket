@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +25,10 @@ public function payments()
 {
     return $this->hasMany(Payment::class, 'customer_profile_id');
 }
+public function orders()
+    {
+        // نربط الطلبات بـ user_id الخاص بالبروفايل
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
 }
 

@@ -17,8 +17,10 @@
             <a href="/admin/dashboard" class="block px-4 py-2.5 rounded-md bg-neutral-50 text-black text-sm font-medium transition">الرئيسية</a>
             <a href="{{ route('categories.index') }}" class="block px-4 py-2.5 rounded-md hover:bg-neutral-50 text-neutral-500 hover:text-black text-sm transition">الاقسام </a>
             <a href="{{ route('products.index') }}" class="block px-4 py-2.5 rounded-md hover:bg-neutral-50 text-neutral-500 hover:text-black text-sm transition">المنتجات</a>
-            <a href="#" class="block px-4 py-2.5 rounded-md hover:bg-neutral-50 text-neutral-500 hover:text-black text-sm transition">الطلبات</a>
-            <a href="{{route('customer.index')}}" class="block px-4 py-2.5 rounded-md hover:bg-neutral-50 text-neutral-500 hover:text-black text-sm transition">الزباين</a>            
+         <a href="{{ route('admin.orders.index') }}" 
+   class="block px-4 py-2.5 rounded-md hover:bg-neutral-50 text-neutral-500 hover:text-black text-sm transition">
+   الطلبات
+</a>   <a href="{{route('customer.index')}}" class="block px-4 py-2.5 rounded-md hover:bg-neutral-50 text-neutral-500 hover:text-black text-sm transition">الزباين</a>            
            
         </nav>
         

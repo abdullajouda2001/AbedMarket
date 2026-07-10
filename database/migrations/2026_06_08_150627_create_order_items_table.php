@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_items', function (Blueprint $table) {
-           $table->id();
+          $table->id();
 $table->foreignId('order_id')->constrained()->onDelete('cascade');
 $table->foreignId('product_id')->constrained();
 $table->integer('quantity');
-$table->decimal('price', 8, 2); // السعر وقت الطلب
+$table->decimal('price', 8, 2); // السعر وقت الطلب (مهم جداً لأن سعر المنتج قد يتغير لاحقاً)
 $table->timestamps();
         });
     }
